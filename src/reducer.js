@@ -1,12 +1,14 @@
-import {DECREASE, INCREASE} from './actions';
+import { DECREASE, INCREASE, CLEAR_CART } from "./actions";
+
+// reducer - function that is used to update the store
+// two arugements - state, action
+// state - old state/state before update
+// action - what happened/what update
+// return updated or old state
 
 const reducer = (state, action) => {
-  console.log({ state, action });
-  if (action.type === DECREASE) {
-    return { ...state, count: state.count - 1 };
-  }
-  if (action.type === INCREASE) {
-    return { ...state, count: state.count + 1 };
+  if (action.type === CLEAR_CART) {
+    return { ...state, cart: [] };
   }
   return state;
 };
