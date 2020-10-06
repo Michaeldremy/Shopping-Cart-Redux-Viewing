@@ -14,20 +14,22 @@ import cartItems from "./cart-items";
 // return updated or old state
 
 import { createStore } from "redux";
+import {DECREASE, INCREASE} from './actions';
+import reducer from './reducer'
 
-// store.getState() - 
+// store.getState() -
 
 // initial store
 const initialStore = {
   count: 0,
-}
-// reducer
-const reducer = (state, action) => {
-  console.log({ state, action });
-  return state;
+  name: 'Michael',
 };
+
 // store
 const store = createStore(reducer, initialStore);
+store.dispatch({ type: DECREASE });
+store.dispatch({ type: INCREASE });
+store.dispatch({ type: INCREASE });
 console.log(store.getState());
 
 function App() {
@@ -35,7 +37,7 @@ function App() {
 
   return (
     <main>
-      <Navbar />
+      <Navbar cart={store.getState()} />
       <CartContainer cart={cartItems} />
     </main>
   );
