@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CartItem from "./CartItem";
 import { connect } from "react-redux";
-import { CLEAR_CART } from '../actions';
+import { CLEAR_CART, GET_TOTALS } from "../actions";
 const CartContainer = ({ cart = [], total, dispatch }) => {
+  useEffect(() => {
+    dispatch({ type: GET_TOTALS });
+  });
   if (cart.length === 0) {
     return (
       <section className="cart">
@@ -34,7 +37,12 @@ const CartContainer = ({ cart = [], total, dispatch }) => {
             total <span>${total}</span>
           </h4>
         </div>
-        <button className="btn clear-btn" onClick={() => dispatch({type: CLEAR_CART})}>clear cart</button>
+        <button
+          className="btn clear-btn"
+          onClick={() => dispatch({ type: CLEAR_CART })}
+        >
+          clear cart
+        </button>
       </footer>
     </section>
   );
@@ -42,7 +50,7 @@ const CartContainer = ({ cart = [], total, dispatch }) => {
 
 const mapStateToProps = (state) => {
   // ES6 way of calling state from store
-  const {cart, total} = state; // we are destructuring 
+  const { cart, total } = state; // we are destructuring
   return { cart, total };
 };
 
