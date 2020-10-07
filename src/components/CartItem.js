@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { DECREASE, INCREASE, REMOVE } from "../actions";
-const CartItem = ({ img, title, price, amount, remove, increase, decrease }) => {
+import { removeItem, toggleAmount } from "../actions";
+const CartItem = ({ img, title, price, amount, remove, toggle }) => {
   return (
     <div className="cart-item">
       <img src={img} alt={title} />
@@ -15,7 +15,7 @@ const CartItem = ({ img, title, price, amount, remove, increase, decrease }) => 
       </div>
       <div>
         {/* increase amount */}
-        <button className="amount-btn" onClick={() => increase()}>
+        <button className="amount-btn" onClick={() => toggle("inc")}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
             <path d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z" />
           </svg>
@@ -23,7 +23,16 @@ const CartItem = ({ img, title, price, amount, remove, increase, decrease }) => 
         {/* amount */}
         <p className="amount">{amount}</p>
         {/* decrease amount */}
-        <button className="amount-btn" onClick={() => decrease()}>
+        <button
+          className="amount-btn"
+          onClick={() => {
+            if (amount === 1) {
+              return remove();
+            } else {
+              toggle("dec");
+            }
+          }}
+        >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
             <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
           </svg>
@@ -39,11 +48,10 @@ const CartItem = ({ img, title, price, amount, remove, increase, decrease }) => 
 // we are desctructuring ownProps to get the id from cart-items.js
 // then we are passing id as the value for payload
 const mapDispatchToProps = (dispatch, ownProps) => {
-  const { id, amount } = ownProps;
+  const { id } = ownProps;
   return {
-    remove: () => dispatch({ type: REMOVE, payload: { id } }),
-    increase: () => dispatch({ type: INCREASE, payload: { id } }),
-    decrease: () => dispatch({ type: DECREASE, payload: { id, amount } }),
+    remove: () => dispatch(removeItem(id)), // This is an action creator coming from actions.js
+    toggle: (toggle) => dispatch(toggleAmount(id, toggle)), // This is can action creator coming from actions.js
   };
 };
 
